@@ -5,6 +5,8 @@ import { ContactsForm } from './components/ContactsForm/ContactsForm';
 import { ContactsList } from 'components/ContactsList/ContactsList';
 import { ContactsFilter } from 'components/ContactsFilter/ContactsFilter';
 
+const CONTACTS_STORAGE_ITEM = 'contacts';
+
 export class App extends Component {
   state = {
     contacts: [],
@@ -34,6 +36,16 @@ export class App extends Component {
 
   filterContacts() {
     return this.state.contacts.filter(({ name }) => name.toLowerCase().includes(this.state.filter))
+  }
+
+  componentDidMount() {
+    const savedContacts = JSON.parse(localStorage.getItem(CONTACTS_STORAGE_ITEM));
+
+    if (savedContacts) this.setState({ contacts: savedContacts });
+  }
+
+  componentDidUpdate() {
+    localStorage.setItem(CONTACTS_STORAGE_ITEM, JSON.stringify(this.state.contacts));
   }
 
   render() {
