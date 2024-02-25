@@ -44,8 +44,10 @@ export class App extends Component {
     if (savedContacts) this.setState({ contacts: savedContacts });
   }
 
-  componentDidUpdate() {
-    localStorage.setItem(CONTACTS_STORAGE_ITEM, JSON.stringify(this.state.contacts));
+  componentDidUpdate(_, state) {
+    if (state.contacts !== this.state.contacts) {
+      localStorage.setItem(CONTACTS_STORAGE_ITEM, JSON.stringify(this.state.contacts));
+    }
   }
 
   render() {
